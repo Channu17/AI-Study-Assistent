@@ -1,0 +1,9 @@
+langchain
+langchain_community
+langchain_huggingface
+streamlit 
+fastapi
+langchain_messages
+chromadb
+langchain_groq
+langchain_google
