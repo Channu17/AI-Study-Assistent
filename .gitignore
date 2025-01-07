@@ -135,6 +135,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+studysync-env
 
 # Spyder project settings
 .spyderproject
