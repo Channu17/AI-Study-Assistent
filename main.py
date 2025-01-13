@@ -67,7 +67,7 @@ You are an AI-powered study assistant designed specifically for engineering stud
 5. **Structure the Answer Clearly**: Aim for well-structured explanations of about 200-250 words. Use bullet points, numbered lists, or short paragraphs when applicable to enhance readability and understanding.
 
 6. **Cite Context When Needed**: If possible, refer to specific sections, chapters, or concepts from the textbook to make answers more aligned with the source material.
- {context}'''),
+ -context: {context}'''),
     MessagesPlaceholder(variable_name='chat_history'),
     ("human", "{input}")
 ])
@@ -81,11 +81,15 @@ def get_chat_history(session_id):
         st.session_state[session_id] = []
     return st.session_state[session_id]
 
+
 def insert_application_logs(session_id, user_query, response):
-    """Log user query and AI response to session history."""
+    """Log user query and AI response to session history in the correct format."""
     if session_id not in st.session_state:
         st.session_state[session_id] = []
-    st.session_state[session_id].append({"query": user_query, "response": response})
+    
+    # Store each log as a message with role and content
+    st.session_state[session_id].append({"role": "user", "content": user_query})
+    st.session_state[session_id].append({"role": "assistant", "content": response})
 
 st.title("AI Study Assistant for Engineering Students")
 st.write("Ask any question from your textbooks, and get accurate and contextual answers.")
