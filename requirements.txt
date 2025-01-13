@@ -3,7 +3,9 @@ langchain_community
 langchain_huggingface
 streamlit 
 fastapi
-langchain_messages
+langchain_core
 chromadb
 langchain_groq
-langchain_google
+faiss-cpu
+pypdf
+python-dotenv
