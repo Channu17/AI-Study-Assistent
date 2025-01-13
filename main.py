@@ -127,5 +127,7 @@ if st.checkbox("Show Chat History"):
     st.write("### Chat History")
     history = get_chat_history(session_id)
     for idx, entry in enumerate(history):
-        st.write(f"**Q{idx+1}:** {entry['query']}")
-        st.write(f"**A{idx+1}:** {entry['response']}")
+        if entry['role'] == 'user':
+            st.write(f"**Q{idx+1}:** {entry['content']}")
+        elif entry['role'] == 'assistant':
+            st.write(f"**A{idx+1}:** {entry['content']}")
