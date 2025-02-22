@@ -16,3 +16,4 @@ pdf2image
 pillow 
 reportlab
 pypdf2
+streamlit

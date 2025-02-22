@@ -1,41 +1,40 @@
-from pymongo import MongoClient
-from datetime import datetime
+import sqlite3
 
-DB_NAME = "rag_app"
-COLLECTION_NAME = "application_logs"
-
+DB_NAME = "rag_app.db"
 
 def get_db_connection():
-    client = MongoClient("mongodb://localhost:27017/")  
-    db = client[DB_NAME]
-    return db[COLLECTION_NAME]
+    conn = sqlite3.connect(DB_NAME)
+    conn.row_factory = sqlite3.Row
+    return conn
 
+def create_application_logs():
+    conn = get_db_connection()
+    conn.execute('''CREATE TABLE IF NOT EXISTS application_logs
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    session_id TEXT,
+    user_query TEXT,
+    model_response TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+    conn.close()
 
 def insert_application_logs(session_id, user_query, model_response):
-    collection = get_db_connection()
-    log_entry = {
-        "session_id": session_id,
-        "user_query": user_query,
-        "model_response": model_response,
-        "created_at": datetime.utcnow()
-    }
-    collection.insert_one(log_entry)
-    
-  
-    logs = list(collection.find({"session_id": session_id}).sort("created_at", -1))
-    if len(logs) > 3:
-        for log in logs[3:]:
-            collection.delete_one({"_id": log["_id"]})
+    conn = get_db_connection()
+    conn.execute('INSERT INTO application_logs (session_id, user_query, model_response) VALUES (?, ?, ?)',
+                 (session_id, user_query, model_response, ))
+    conn.commit()
+    conn.close()
 
 def get_chat_history(session_id):
-    collection = get_db_connection()
-    logs = collection.find({"session_id": session_id}, {"_id": 0, "user_query": 1, "model_response": 1}).sort("created_at", -1).limit(3)
-    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT user_query, model_response FROM application_logs WHERE session_id = ?', (session_id,))
     messages = []
-    for log in logs:
+    for row in cursor.fetchall():
         messages.extend([
-            {"role": "human", "content": log["user_query"]},
-            {"role": "ai", "content": log["model_response"]}
+            {"role": "human", "content": row['user_query']},
+            {"role": "ai", "content": row['model_response']}
         ])
-    
+    conn.close()
     return messages
+
+create_application_logs()
