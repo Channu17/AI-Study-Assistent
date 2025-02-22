@@ -1,1 +1,1 @@
-# Study-Sync-Assistent
+# AI-Study-Assistent
