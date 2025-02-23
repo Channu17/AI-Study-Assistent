@@ -56,7 +56,7 @@ def resume(file: UploadFile, question: str):
             os.remove(file_path)
 
 def initialize_retriver(model, embeddings, subject, sem):
-    vector_db = FAISS.load_local(f'../src/RAG/sem{sem}/{subject}', embeddings, allow_dangerous_deserialization=True)
+    vector_db = FAISS.load_local(f'src/RAG/sem{sem}/{subject}', embeddings, allow_dangerous_deserialization=True)
     retriever = vector_db.as_retriever()
 
     contextualize_q_system_prompt = """

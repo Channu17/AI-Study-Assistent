@@ -5,7 +5,7 @@ import os
 from utils.database import insert_application_logs, get_chat_history
 import uuid
 
-
+# Load environment variables
 load_dotenv()
 os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 
@@ -44,7 +44,7 @@ if page == "Resume Analyzer":
 
 elif page == "Study Chatbot":
     st.title("Study Chatbot")
-    subjects = ["Data Communication", "Design and Analysis of Algorithms", "Linear Algebra", "Operating Systems", "Software Engineering","Theory of Computation"]
+    subjects = ["Data Communication", "Design and Analysis of Algorithms", "Linear Algebra", "Operating Systems", "Software Engineering", "Theory of Computation"]
     subject = st.selectbox("Select Subject", subjects, index=0)
     sem = st.number_input("Enter Semester", min_value=1, max_value=10, value=4, step=1)
     user_query = st.text_area("Enter your question:")
