@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import StreamingResponse
-from utils.bot import resume, get_model, initialize_retriver, initialize_rag_chain
+from src.utils.bot import resume, get_model, initialize_retriver, initialize_rag_chain
 from dotenv import load_dotenv
 import os
 from src.utils.database import insert_application_logs, get_chat_history
