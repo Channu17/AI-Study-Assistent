@@ -3,7 +3,7 @@ from fastapi.responses import StreamingResponse
 from utils.bot import resume, get_model, initialize_retriver, initialize_rag_chain
 from dotenv import load_dotenv
 import os
-from utils.database import insert_application_logs, get_chat_history
+from src.utils.database import insert_application_logs, get_chat_history
 import uuid
 from typing import Optional
 from pdf2image import convert_from_bytes
